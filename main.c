@@ -1,6 +1,7 @@
 #include <SDL2/SDL.h>
 #include <stdio.h>
 #include <stdlib.h>
+#define PI 3.1415
 
 float dt = 0, last_frame = 0, current_frame = 0;
 
@@ -11,6 +12,10 @@ SDL_Rect ball = {(640 - 10)/2, (480 - 10)/2, 10, 10};
 float ballSpeed = 0.1;
 float ballDirection = 0;
 
+void updateBallPos() {
+	ball.x += ballSpeed * dt * cos(ballDirection);
+	ball.y -= ballSpeed * dt * sin(ballDirection);
+}
 
 void updateTime() {
 	current_frame = SDL_GetTicks();
@@ -40,6 +45,9 @@ int main()
 		SDL_Quit();
 		return EXIT_FAILURE;
 	}
+
+	SDL_SetRenderDrawColor(ren, 0x20, 0x20, 0x20, 0xff);
+
 	int close = 0;
 	while (!close){
 		SDL_SetRenderDrawColor(ren, 0x20, 0x20, 0x20, 0xff);
@@ -55,7 +63,15 @@ int main()
 					break;
 			}
 		}
+		printf("ballpos: %d\n", ball.x);
+
+
 		SDL_SetRenderDrawColor(ren, 0xff, 0xff, 0xff, 0xff);
+
+		leftBar.y = 40 * 2*sin(current_frame/1000) + 240;
+		rightBar.y = 40 * 3*sin(current_frame/1000) + 240 + 0.5 * sin (2/1000 * current_frame);
+
+		updateBallPos();
 
 		SDL_RenderFillRect(ren, &leftBar);
 		SDL_RenderFillRect(ren, &rightBar);
