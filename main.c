@@ -23,6 +23,18 @@ int main()
 		SDL_Quit();
 		return EXIT_FAILURE;
 	}
+	int close = 0;
+	while (!close){
+		SDL_SetRenderDrawColor(ren, 0x20, 0x20, 0x20, 0xff);
+		SDL_RenderClear(ren);
+		SDL_Event ev;
+		while(SDL_PollEvent(&ev)) {
+			switch (ev.type) {
+				case SDL_QUIT:
+					close = 1;
+					break;
+			}
+	}
 	SDL_DestroyRenderer(ren);
 	SDL_DestroyWindow(win);
 	SDL_Quit();
