@@ -1,6 +1,18 @@
 #include <SDL2/SDL.h>
 #include <stdio.h>
 #include <stdlib.h>
+
+float dt = 0, last_frame = 0, current_frame = 0;
+
+
+
+
+void updateTime() {
+	current_frame = SDL_GetTicks();
+	dt = current_frame - last_frame;
+	last_frame = current_frame;
+}
+
 int main()
 {
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
@@ -27,6 +39,9 @@ int main()
 	while (!close){
 		SDL_SetRenderDrawColor(ren, 0x20, 0x20, 0x20, 0xff);
 		SDL_RenderClear(ren);
+
+		updateTime();
+
 		SDL_Event ev;
 		while(SDL_PollEvent(&ev)) {
 			switch (ev.type) {
