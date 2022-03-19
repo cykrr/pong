@@ -4,7 +4,12 @@
 
 float dt = 0, last_frame = 0, current_frame = 0;
 
+SDL_Rect leftBar = {0, 480 - 50 , 10, 100};
+SDL_Rect rightBar = {640 - 10, 480 - 50 , 10, 100};
+SDL_Rect ball = {(640 - 10)/2, (480 - 10)/2, 10, 10};
 
+float ballSpeed = 0.1;
+float ballDirection = 0;
 
 
 void updateTime() {
@@ -49,6 +54,14 @@ int main()
 					close = 1;
 					break;
 			}
+		}
+		SDL_SetRenderDrawColor(ren, 0xff, 0xff, 0xff, 0xff);
+
+		SDL_RenderFillRect(ren, &leftBar);
+		SDL_RenderFillRect(ren, &rightBar);
+		SDL_RenderFillRect(ren, &ball);
+
+		SDL_RenderPresent(ren);
 	}
 	SDL_DestroyRenderer(ren);
 	SDL_DestroyWindow(win);
