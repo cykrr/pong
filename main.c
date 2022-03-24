@@ -1,25 +1,54 @@
 #include <SDL2/SDL.h>
 #include <stdio.h>
 #include <stdlib.h>
-#define PI 3.1415
+
+#define DEGREES M_PI/180
+
+int close = 0;
+const Uint8 *kb = NULL;
+
 
 float dt = 0, last_frame = 0, current_frame = 0;
 
-SDL_Rect leftBar = {0, 480 - 50 , 10, 100};
-SDL_Rect rightBar = {640 - 10, 480 - 50 , 10, 100};
-SDL_Rect ball = {(640 - 10)/2, (480 - 10)/2, 10, 10};
+SDL_Rect bottomBar = {(500 - 50)/2, 500 - 10 , 100, 10};
+SDL_Rect ball = {(500 - 10)/2, (500 - 10)/2, 10, 10};
+SDL_Rect screen = {0, 0, 500, 500};
+SDL_Rect tmp;
 
-float ballSpeed = 0.1;
-float ballDirection = 0;
+float ballSpeed = 200;
+float ballDirection = 25 * DEGREES;
+
+void processInput(SDL_Window *window){
+    SDL_Event ev;
+    while(SDL_PollEvent(&ev)) {
+            switch (ev.type) {
+                    case SDL_QUIT:
+                            close = 1;
+                            break;
+            }
+    }
+    if (kb != NULL) {
+        if (kb[SDL_SCANCODE_H]){
+            bottomBar.x -= 300 * dt;
+        } if (kb[SDL_SCANCODE_L]){
+            bottomBar.x += 300 * dt;
+        }
+    }
+
+    const Uint8 *kb = SDL_GetKeyboardState(0);
+    if(kb[SDL_SCANCODE_J]){ 
+        ballDirection -= M_PI/180;
+    } else if(kb[SDL_SCANCODE_K]){ 
+        ballDirection += M_PI/180;
+    }
+}
 
 void updateBallPos() {
-	ball.x += ballSpeed * dt * cos(ballDirection);
-	ball.y -= ballSpeed * dt * sin(ballDirection);
 }
 
 void updateTime() {
 	current_frame = SDL_GetTicks();
-	dt = current_frame - last_frame;
+	dt = (current_frame - last_frame) / 1000;
 	last_frame = current_frame;
 }
 
@@ -30,7 +59,8 @@ int main()
 		return EXIT_FAILURE;
 	}
 
-	SDL_Window* win = SDL_CreateWindow("Hello World!", 100, 100, 640, 480, SDL_WINDOW_SHOWN);
+	SDL_Window* win = SDL_CreateWindow("Hello World!", 100, 100, 500, 500,
+                SDL_WINDOW_SHOWN| SDL_WINDOW_OPENGL );
 	if (win == NULL) {
 		fprintf(stderr, "SDL_CreateWindow Error: %s\n", SDL_GetError());
 		return EXIT_FAILURE;
@@ -48,34 +78,42 @@ int main()
 
 	SDL_SetRenderDrawColor(ren, 0x20, 0x20, 0x20, 0xff);
 
-	int close = 0;
+        kb = SDL_GetKeyboardState(NULL);
 	while (!close){
 		SDL_SetRenderDrawColor(ren, 0x20, 0x20, 0x20, 0xff);
 		SDL_RenderClear(ren);
 
 		updateTime();
+                processInput(win);
 
-		SDL_Event ev;
-		while(SDL_PollEvent(&ev)) {
-			switch (ev.type) {
-				case SDL_QUIT:
-					close = 1;
-					break;
-			}
-		}
-		printf("ballpos: %d\n", ball.x);
+                printf("Pong\n");
+                printf("dt: %.3f\n", dt);
+                printf("ball: %d %d %d %d\n", ball.x, ball.y, ball.w, ball.h);
+                printf("ballSpeed: %f\n", ballSpeed);
+                printf("ballDirection: %f\n", ballDirection * 180 / M_PI);
+                printf("Screen: %d %d %d %d\n", screen.x, screen.y, screen.w, screen.h);
 
+                for(int i = 0; i < 23; i++) putchar('\n');
 
 		SDL_SetRenderDrawColor(ren, 0xff, 0xff, 0xff, 0xff);
+                ball.x += ballSpeed * dt * cos(ballDirection);
+                ball.y -= ballSpeed * dt * sin(ballDirection);
 
-		leftBar.y = 40 * 2*sin(current_frame/1000) + 240;
-		rightBar.y = 40 * 3*sin(current_frame/1000) + 240 + 0.5 * sin (2/1000 * current_frame);
+                if(ball.x + ball.w >= screen.w || (ball.x <= 10)){
+                    printf("Here\n");
+                    ballDirection = M_PI - ballDirection;
+                }
+                if ( ball.y <= 0 || 
+                        ( ball.y + ball.h >= 500 - 10 &&
+                         SDL_IntersectRect(&ball, &bottomBar, &tmp)
+                        )
+                    ) {
+                    ballDirection *= -1;
+                }
 
-		updateBallPos();
+                SDL_RenderFillRect(ren, &ball);
 
-		SDL_RenderFillRect(ren, &leftBar);
-		SDL_RenderFillRect(ren, &rightBar);
-		SDL_RenderFillRect(ren, &ball);
+                SDL_RenderFillRect(ren, &bottomBar);
 
 		SDL_RenderPresent(ren);
 	}
