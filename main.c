@@ -23,6 +23,12 @@ SDL_Rect tmp;
 float ballSpeed = 200;
 float ballDirection = 45 * DEGREES;
 
+void updatePosition() 
+{
+    ball.x += ballSpeed * dt * cos(ballDirection);
+    ball.y -= ballSpeed * dt * sin(ballDirection);
+}
+
 void processInput(SDL_Window *window){
     SDL_Event ev;
     while(SDL_PollEvent(&ev)) {
