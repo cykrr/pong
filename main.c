@@ -7,6 +7,11 @@
 int close = 0;
 const Uint8 *kb = NULL;
 
+float model(float percent) {
+    return -2 * percent + 200; 
+          
+}
+
 
 float dt = 0, last_frame = 0, current_frame = 0;
 
