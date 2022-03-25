@@ -21,7 +21,7 @@ SDL_Rect screen = {0, 0, 500, 500};
 SDL_Rect tmp;
 
 float ballSpeed = 200;
-float ballDirection = 25 * DEGREES;
+float ballDirection = 45 * DEGREES;
 
 void processInput(SDL_Window *window){
     SDL_Event ev;
