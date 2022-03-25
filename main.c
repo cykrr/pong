@@ -39,9 +39,12 @@ void processInput(SDL_Window *window){
             }
     }
     if (kb != NULL) {
-        if (kb[SDL_SCANCODE_H]){
+        if (kb[SDL_SCANCODE_H]&&
+                bottomBar.x >= 0){
             bottomBar.x -= 300 * dt;
-        } if (kb[SDL_SCANCODE_L]){
+        } if (kb[SDL_SCANCODE_L] && 
+            bottomBar.x + bottomBar.w <= 500){
+
             bottomBar.x += 300 * dt;
         }
     }
