@@ -49,7 +49,6 @@ void processInput(SDL_Window *window){
         }
     }
 
-    const Uint8 *kb = SDL_GetKeyboardState(0);
     if(kb[SDL_SCANCODE_J]){ 
         ballDirection -= M_PI/180;
     } else if(kb[SDL_SCANCODE_K]){ 
