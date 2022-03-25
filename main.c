@@ -138,15 +138,9 @@ int main()
 
 		SDL_SetRenderDrawColor(ren, 0xff, 0xff, 0xff, 0xff);
 
-                if(ball.x + ball.w >= screen.w || (ball.x <= 10)){
+                if(ball.x + ball.w >= screen.w || (ball.x <= 0)){
                     printf("Here\n");
                     ballDirection = M_PI - ballDirection;
-                }
-                if ( ball.y <= 0 || 
-                        ( ball.y + ball.h >= 500 - 10 &&
-                         SDL_IntersectRect(&ball, &bottomBar, &tmp)
-                        )
-                    ) {
                     ballDirection *= -1;
                 }
 
