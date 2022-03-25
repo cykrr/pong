@@ -119,7 +119,22 @@ int main()
                 printf("ballDirection: %f\n", ballDirection * 180 / M_PI);
                 printf("Screen: %d %d %d %d\n", screen.x, screen.y, screen.w, screen.h);
 
-                for(int i = 0; i < 23; i++) putchar('\n');
+                printf("bar: %d %d %d %d\n", 
+                        bottomBar.x, bottomBar.y, 
+                        bottomBar.w, bottomBar.h);
+
+                printf("%% away: %f%%\n", 
+                        ((double)100*(bottomBar.x
+                            + bottomBar.w /2 ) /
+                        (screen.w-(bottomBar.w / 2))
+                        ));
+                printf("Angle: %.2f°\n", 
+                        model((double)100*(bottomBar.x
+                            + bottomBar.w /2 ) /
+                        (screen.w-(bottomBar.w / 2))
+                        ));
+
+                for(int i = 0; i < 19; i++) putchar('\n');
 
 		SDL_SetRenderDrawColor(ren, 0xff, 0xff, 0xff, 0xff);
                 ball.x += ballSpeed * dt * cos(ballDirection);
