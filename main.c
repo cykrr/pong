@@ -49,10 +49,10 @@ void processInput(SDL_Window *window){
         }
     }
 
-    if(kb[SDL_SCANCODE_J]){ 
-        ballDirection -= M_PI/180;
+    if(kb[SDL_SCANCODE_J] ){ 
+        ballDirection -= M_PI/90;
     } else if(kb[SDL_SCANCODE_K]){ 
-        ballDirection += M_PI/180;
+        ballDirection += M_PI/90;
     }
 }
 
