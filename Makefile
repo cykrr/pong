@@ -1,6 +1,7 @@
-all: build
+NAME=pong
+all: $(NAME)
 
-build: main.c
-	gcc main.c -o pong -lSDL2 -lm
+$(NAME): main.c
+	gcc main.c -o $(NAME) -lSDL2 -lm -g
 
 
