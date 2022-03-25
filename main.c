@@ -137,8 +137,6 @@ int main()
                 for(int i = 0; i < 19; i++) putchar('\n');
 
 		SDL_SetRenderDrawColor(ren, 0xff, 0xff, 0xff, 0xff);
-                ball.x += ballSpeed * dt * cos(ballDirection);
-                ball.y -= ballSpeed * dt * sin(ballDirection);
 
                 if(ball.x + ball.w >= screen.w || (ball.x <= 10)){
                     printf("Here\n");
