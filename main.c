@@ -15,7 +15,7 @@ float model(float percent) {
 
 float dt = 0, last_frame = 0, current_frame = 0;
 
-SDL_Rect bottomBar = {(500 - 50)/2, 500 - 10 , 100, 10};
+SDL_Rect bottomBar = {(500 - 100)/2, 500 - 10 , 100, 10};
 SDL_Rect ball = {(500 - 10)/2, (500 - 10)/2, 10, 10};
 SDL_Rect screen = {0, 0, 500, 500};
 SDL_Rect tmp;
