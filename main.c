@@ -56,8 +56,6 @@ void processInput(SDL_Window *window){
     }
 }
 
-void updateBallPos() {
-}
 
 void updateTime() {
 	current_frame = SDL_GetTicks();
