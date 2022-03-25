@@ -141,9 +141,12 @@ int main()
                 if(ball.x + ball.w >= screen.w || (ball.x <= 0)){
                     printf("Here\n");
                     ballDirection = M_PI - ballDirection;
+                    ballSpeed  += 20;
+                } 
+                if ( ball.y <= 0){
                     ballDirection *= -1;
+                    ballSpeed  += 20;
                 }
-
                 SDL_RenderFillRect(ren, &ball);
 
                 SDL_RenderFillRect(ren, &bottomBar);
