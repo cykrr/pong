@@ -147,6 +147,19 @@ int main()
                     ballDirection *= -1;
                     ballSpeed  += 20;
                 }
+                if ( ball.y + ball.h >= 500 - 10 &&
+                         SDL_IntersectRect(&ball,
+                             &bottomBar, &tmp)
+                ){
+                    ballDirection = model(
+                            (double)100*(bottomBar.x
+                            + bottomBar.w /2 ) /
+                        (screen.w - 1.5*bottomBar.w)
+                        )*DEGREES;
+                    ballSpeed  += 20;
+                    
+                } 
+                updatePosition();
                 SDL_RenderFillRect(ren, &ball);
 
                 SDL_RenderFillRect(ren, &bottomBar);
