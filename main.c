@@ -33,7 +33,7 @@ typedef struct LinkedList {
 }LinkedList;
 
 float model(float percent) {
-    return -2 * percent + 200; 
+    return -1.6*percent + 170;
           
 }
 
