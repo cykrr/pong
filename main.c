@@ -46,7 +46,6 @@ int calculateAngle()
 
 void bounceTop(){
     ballDirection *= -1;
-    ballSpeed  += 20;
 }
 
 void bounceSides(){
@@ -58,11 +57,21 @@ void bounceBottom(){
 }
 
 void linkedListRemoveNode(LinkedList *list, Node *node){
-    if(node->prev)
-        node->prev->next = node->next;
-    if(node->next)
-        node->next->prev = node->prev;
+    if (!(list && list->head && node)){
+        return;
+    }
 
+    if (node == list->head){
+        list->head = node->next;
+        if(node->next)
+            node->next->prev = NULL;
+    } else {
+        if(node->next){
+            node->next->prev = node->prev;
+        } if (node->prev) {
+            node->prev->next = node->next;
+        }
+    }
     free(node);
 }
 
@@ -213,20 +222,20 @@ void processInput(SDL_Window *window){
             }
     }
     if (kb != NULL) {
-        if (kb[SDL_SCANCODE_H]&&
+        if ((kb[SDL_SCANCODE_H] || kb[SDL_SCANCODE_LEFT]) &&
                 bottomBar.x >= 0){
             bottomBar.x -= 300 * dt;
-        } if (kb[SDL_SCANCODE_L] && 
+        } if ((kb[SDL_SCANCODE_L] || kb[SDL_SCANCODE_RIGHT]) && 
             bottomBar.x + bottomBar.w <= 500){
             bottomBar.x += 300 * dt;
-        } if (kb[SDL_SCANCODE_SPACE]) {
+        } if (kb[SDL_SCANCODE_SPACE] || kb[SDL_SCANCODE_KP_ENTER]) {
             start = 1;
         }
     }
 
-    if(kb[SDL_SCANCODE_J] ){ 
+    if(kb[SDL_SCANCODE_J] || kb[SDL_SCANCODE_DOWN] ){ 
         ballDirection -= M_PI/90;
-    } else if(kb[SDL_SCANCODE_K]){ 
+    } else if(kb[SDL_SCANCODE_K] || kb[SDL_SCANCODE_UP]){ 
         ballDirection += M_PI/90;
     }
 }
